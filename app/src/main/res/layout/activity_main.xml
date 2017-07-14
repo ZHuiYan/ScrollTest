@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 此部分是标题部分 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- 左侧标题的父容器 -->
+        <include
+            layout="@layout/layout_left_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- 右侧标题的父容器可实现水平滚动 -->
+        <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
+            android:id="@+id/hs_title"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/layout_right_tab_a" />
+        </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
+    </LinearLayout>
+
+    <!-- 此部分是内容部分 用ScrollView实现上下滚动效果 -->
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <!-- 左侧内容的父容器 -->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/left_container_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:overScrollMode="never" />
+
+        <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
+            android:id="@+id/hs_content"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <!-- 右侧内容的父容器 实现水平滚动 -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/right_container_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:listSelector="@android:color/transparent"
+                android:overScrollMode="never" />
+        </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
+    </LinearLayout>
+</LinearLayout>
