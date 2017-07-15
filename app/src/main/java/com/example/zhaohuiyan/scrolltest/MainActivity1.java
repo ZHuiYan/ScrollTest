@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity1 extends AppCompatActivity implements View.OnClickListener {
-     @BindView(R.id.tv1)
+    /* @BindView(R.id.tv1)
      TextView tv1;
      @BindView(R.id.tv2)
      TextView tv2;
@@ -37,7 +37,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
      @BindView(R.id.tv6)
      TextView tv6;
      @BindView(R.id.tv7)
-     TextView tv7;
+     TextView tv7;*/
     @BindView(R.id.ll_ver)
     MLiner ll_ver;
    /* @BindView(R.id.title_horsv)
@@ -56,7 +56,6 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private List<String> titles = new ArrayList<>();
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
-    private TitleAdapter titleAdapter;
 
 
     @Override
@@ -89,13 +88,13 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         rightContainerRecyclerView.setHasFixedSize(true);
         leftContainerRecyclerView.setHasFixedSize(true);
 
-        tv1.setOnClickListener(this);
+        /*tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
         tv3.setOnClickListener(this);
         tv4.setOnClickListener(this);
         tv5.setOnClickListener(this);
         tv6.setOnClickListener(this);
-        tv7.setOnClickListener(this);
+        tv7.setOnClickListener(this);*/
 
         ll_ver.setRecy(leftContainerRecyclerView,rightContainerRecyclerView);
 
@@ -181,7 +180,6 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 //            }
 //        });
 
-        titleAdapter = new TitleAdapter(R.layout.layout_right_tab_a, titles,this);
 //        rightTitleRecyclerView.setAdapter(titleAdapter);
      /*   titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -203,12 +201,11 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         }
         leftAdapter.setNewData(datas);
         rightAdapter.setNewData(datas);
-        titleAdapter.setNewData(titles);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        /*switch (v.getId()) {
             case R.id.tv1:
             case R.id.tv2:
             case R.id.tv3:
@@ -218,7 +215,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
             case R.id.tv7:
                 sortList();
                 break;
-        }
+        }*/
     }
 
     private boolean isSort;

@@ -1,8 +1,10 @@
 package com.example.zhaohuiyan.scrolltest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,5 +79,19 @@ public class UtilTools {
     public static float dpToPx(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return dpValue * scale + 0.5f;
+    }
+    public static int getScreenWidth(Activity activity) {
+        DisplayMetrics displaysMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displaysMetrics);
+        return displaysMetrics.widthPixels;
+    }
+
+    public static int getScreenHeight(Activity activity) {
+        DisplayMetrics displaysMetrics = new DisplayMetrics();
+
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displaysMetrics);
+
+        return displaysMetrics.heightPixels;
+
     }
 }

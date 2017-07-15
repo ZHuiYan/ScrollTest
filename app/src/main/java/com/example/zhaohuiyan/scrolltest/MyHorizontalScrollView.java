@@ -1,8 +1,14 @@
 package com.example.zhaohuiyan.scrolltest;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
 /**
@@ -11,6 +17,7 @@ import android.widget.HorizontalScrollView;
 public class MyHorizontalScrollView extends HorizontalScrollView {
 
     private View mView;
+    private RecyclerView recyclerView;
 
     public MyHorizontalScrollView(Context context) {
         super(context);
@@ -26,9 +33,16 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         if (mView != null) {
             mView.scrollTo(l, t);
         }
+       /* if (recyclerView != null){
+            GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) recyclerView.getLayoutParams();
+        }*/
     }
 
-
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return super.onTouchEvent(ev);
+    }
 
     /**
      * 设置联动的view
@@ -37,5 +51,12 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
      */
     public void setScrollView(View view) {
         mView = view;
+    }
+
+    /**
+     * 设置横向的recycleView
+     */
+    public void setHRecycleView(RecyclerView recycleView){
+        this.recyclerView = recycleView;
     }
 }
