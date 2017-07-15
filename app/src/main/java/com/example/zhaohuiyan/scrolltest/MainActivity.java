@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,6 +22,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.left_container_recyclerView)
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     MyHorizontalScrollView hsContent;
     @BindView(R.id.hs_title)
     MyHorizontalScrollView hsTtitle;
+    @BindView(R.id.swipe_refresh_header)
+    RefreshHeaderView swipeRefreshHeader;
+    @BindView(R.id.swipe_target)
+    LinearLayout swipeTarget;
+
+    MyPtrClassicFrameLayout lvPortfolio;
 
     //左侧固定一列数据适配
     private List<Stock> datas = new ArrayList<>();
@@ -46,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        lvPortfolio = (MyPtrClassicFrameLayout) findViewById(R.id.lv_portfolio);
         findView();
         initView();
         initData();
@@ -60,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         leftContainerRecyclerView.setLayoutManager(layoutManager);
         rightContainerRecyclerView.setLayoutManager(layoutManager1);
-        rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this,7));
+        rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
 
         hsTtitle.setScrollView(hsContent);
         hsContent.setScrollView(hsTtitle);
@@ -94,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 Log.e("mmm", "onScrollStateChanged：newState=" + newState);
+                /*if (newState == RecyclerView.SCROLL_STATE_IDLE ){
+                    if (ViewCompat.canScrollVertically(recyclerView, -1)){
+                        swipeToLoadLayout.setRefreshing(true);
+                    }else {
+                        swipeToLoadLayout.setRefreshing(false);
+                    }
+                }*/
             }
 
             @Override
@@ -106,6 +123,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                     leftContainerRecyclerView.scrollBy(dx, dy);
                 }
+            }
+        });
+        lvPortfolio.disableWhenHorizontalMove(true);
+        lvPortfolio.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return !rightContainerRecyclerView.canScrollVertically(-1);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                lvPortfolio.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lvPortfolio.refreshComplete();
+                    }
+                },500);
             }
         });
     }

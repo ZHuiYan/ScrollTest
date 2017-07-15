@@ -17,8 +17,6 @@ public class RightAdapter extends BaseQuickAdapter<Stock,RightAdapter.Holder> {
     public RightAdapter(int layoutResId, List<Stock> data) {
         super(layoutResId, data);
     }
-    private int itemHeight;
-    public int getItemHeight(){ return itemHeight;}
 
     @Override
     protected void convert(Holder helper, Stock item) {
@@ -40,13 +38,6 @@ public class RightAdapter extends BaseQuickAdapter<Stock,RightAdapter.Holder> {
         TextView textView7;
         public Holder(final View view) {
             super(view);
-            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    itemHeight = view.getMeasuredHeight();
-                    return true;
-                }
-            });
             textView1 = (TextView) view.findViewById(R.id.right_item_textview0);
             textView2 = (TextView) view.findViewById(R.id.right_item_textview1);
             textView3 = (TextView) view.findViewById(R.id.right_item_textview2);
