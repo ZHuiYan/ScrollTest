@@ -34,7 +34,9 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             mView.scrollTo(l, t);
         }
        /* if (recyclerView != null){
+            recyclerView.smoothScrollToPosition(3);
             GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+            layoutManager.smoothScrollToPosition(c);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) recyclerView.getLayoutParams();
         }*/
     }

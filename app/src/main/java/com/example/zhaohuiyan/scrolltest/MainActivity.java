@@ -64,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         hsTtitle.setScrollView(hsContent);
         hsContent.setScrollView(hsTtitle);
+
         hsTtitle.setHRecycleView(rightTitleRecyclerView);
+        hsContent.setHRecycleView(rightTitleRecyclerView);
+
         rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
         leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
