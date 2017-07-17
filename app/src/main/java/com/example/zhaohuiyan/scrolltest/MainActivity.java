@@ -1,6 +1,7 @@
 package com.example.zhaohuiyan.scrolltest;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
     private RightAdapter rightAdapter;
     private TitleAdapter titleAdapter;
 
+    private Handler handler = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        handler = new Handler();
         findView();
         initView();
         initData();
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化数据源
     private void initData() {
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 1000; i++) {
             datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));
         }
         for (int i = 0; i < 7; i++) {
@@ -212,4 +215,34 @@ public class MainActivity extends AppCompatActivity {
         }
         titleAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (handler != null){
+            handler.postDelayed(runnable,10 * 1000);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (handler != null){
+            handler.removeCallbacks(runnable);
+        }
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.e("mmmm","runnable");
+            datas.clear();
+            for (int i = 0; i < 1000; i++) {
+                datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));
+            }
+            leftAdapter.setNewData(datas);
+            rightAdapter.setNewData(datas);
+            handler.postDelayed(this, 10 * 1000);
+        }
+    };
 }
