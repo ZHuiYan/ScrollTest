@@ -36,11 +36,9 @@ public class MainActivity extends AppCompatActivity {
     MyHorizontalScrollView hsContent;
     @BindView(R.id.hs_title)
     MyHorizontalScrollView hsTtitle;
-    @BindView(R.id.swipe_refresh_header)
-    RefreshHeaderView swipeRefreshHeader;
     @BindView(R.id.swipe_target)
     LinearLayout swipeTarget;
-
+    @BindView(R.id.lv_portfolio)
     MyPtrClassicFrameLayout lvPortfolio;
 
     //左侧固定一列数据适配
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        lvPortfolio = (MyPtrClassicFrameLayout) findViewById(R.id.lv_portfolio);
         findView();
         initView();
         initData();
@@ -104,13 +101,6 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 Log.e("mmm", "onScrollStateChanged：newState=" + newState);
-                /*if (newState == RecyclerView.SCROLL_STATE_IDLE ){
-                    if (ViewCompat.canScrollVertically(recyclerView, -1)){
-                        swipeToLoadLayout.setRefreshing(true);
-                    }else {
-                        swipeToLoadLayout.setRefreshing(false);
-                    }
-                }*/
             }
 
             @Override
