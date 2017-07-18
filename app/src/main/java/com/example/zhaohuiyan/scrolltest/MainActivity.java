@@ -61,19 +61,16 @@ public class MainActivity extends AppCompatActivity {
         initData();
     }
 
-    private LinearLayoutManager layoutManager;
-    private LinearLayoutManager layoutManager1;
-
     private void findView() {
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager1 = new LinearLayoutManager(this);
 
-        leftContainerRecyclerView.setLayoutManager(layoutManager);
-        rightContainerRecyclerView.setLayoutManager(layoutManager1);
+        leftContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rightContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
 
         hsTtitle.setScrollView(hsContent);
         hsContent.setScrollView(hsTtitle);
+
+        hsContent.setPtrRefresh(lvPortfolio);
 
         hsTtitle.setHRecycleView(rightTitleRecyclerView);
         hsContent.setHRecycleView(rightTitleRecyclerView);

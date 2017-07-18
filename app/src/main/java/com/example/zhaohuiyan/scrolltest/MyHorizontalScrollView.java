@@ -18,6 +18,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
 
     private View mView;
     private RecyclerView recyclerView;
+    private MyPtrClassicFrameLayout ptrRefresh;//首页的滑动控件
 
     public MyHorizontalScrollView(Context context) {
         super(context);
@@ -27,23 +28,41 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         super(context, attrs);
     }
 
+    public void setPtrRefresh(MyPtrClassicFrameLayout ptrRefresh){
+        this.ptrRefresh = ptrRefresh;
+    }
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if (ptrRefresh != null)
+            ptrRefresh.setPullToRefresh(true);
+    }
+
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         //这句的意思就是我滚到哪里，设置进来的空间就滚到哪里
         if (mView != null) {
             mView.scrollTo(l, t);
         }
-       /* if (recyclerView != null){
-            recyclerView.smoothScrollToPosition(3);
-            GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-            layoutManager.smoothScrollToPosition(c);
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) recyclerView.getLayoutParams();
-        }*/
+        if (ptrRefresh != null)
+            ptrRefresh.setPullToRefresh(false);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.e("mmmmmm","ACTION_DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.e("mmmmmm","ACTION_MOVE");
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                Log.e("mmmmmm","ACTION_CANCEL");
+                break;
+        }
         return super.onTouchEvent(ev);
+
     }
 
     /**
