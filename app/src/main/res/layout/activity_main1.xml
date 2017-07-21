@@ -33,16 +33,16 @@
                 android:id="@+id/right_title_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>-->
-            <include layout="@layout/layout_right_tab_a" />
+            <include layout="@layout/layout_right_tab_a1" />
         </LinearLayout>
     </LinearLayout>
 
     <!-- 此部分是内容部分 用ScrollView实现上下滚动效果 -->
-    <!--<android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
+        android:layout_height="match_parent">
 
-        <com.example.zhaohuiyan.scrolltest.MLiner
+        <LinearLayout
             android:id="@+id/ll_ver"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,6 +61,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:listSelector="@android:color/transparent" />
-        </com.example.zhaohuiyan.scrolltest.MLiner>
-   <!-- </android.support.v4.widget.NestedScrollView>-->
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

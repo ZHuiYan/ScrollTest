@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_right_head"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="代码"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="实时价格"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="折溢价率"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="付息日"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="规定利率"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv6"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="母基需跌"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv7"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="涨跌幅"
+        android:textSize="14sp" />
+
+</LinearLayout>

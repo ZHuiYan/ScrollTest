@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.zhaohuiyan.scrolltest.adapter.LeftAdapter;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity1 extends AppCompatActivity implements View.OnClickListener {
-    /* @BindView(R.id.tv1)
+     @BindView(R.id.tv1)
      TextView tv1;
      @BindView(R.id.tv2)
      TextView tv2;
@@ -37,9 +38,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
      @BindView(R.id.tv6)
      TextView tv6;
      @BindView(R.id.tv7)
-     TextView tv7;*/
+     TextView tv7;
     @BindView(R.id.ll_ver)
-    MLiner ll_ver;
+    LinearLayout ll_ver;
    /* @BindView(R.id.title_horsv)
     MyHorizontalScrollView titleHorsv;*/
     @BindView(R.id.left_container_recyclerView)
@@ -73,86 +74,27 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private float oX,oY;
     private void findView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setSmoothScrollbarEnabled(true);
         linearLayoutManager.setAutoMeasureEnabled(true);
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        linearLayoutManager1.setSmoothScrollbarEnabled(true);
         linearLayoutManager1.setAutoMeasureEnabled(true);
 
         leftContainerRecyclerView.setLayoutManager(linearLayoutManager);
-
         rightContainerRecyclerView.setLayoutManager(linearLayoutManager1);
-        rightContainerRecyclerView.setNestedScrollingEnabled(false);
-        leftContainerRecyclerView.setNestedScrollingEnabled(false);
-        rightContainerRecyclerView.setHasFixedSize(true);
-        leftContainerRecyclerView.setHasFixedSize(true);
 
-        /*tv1.setOnClickListener(this);
+        leftContainerRecyclerView.setNestedScrollingEnabled(false);
+        rightContainerRecyclerView.setNestedScrollingEnabled(false);
+
+        tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
         tv3.setOnClickListener(this);
         tv4.setOnClickListener(this);
         tv5.setOnClickListener(this);
         tv6.setOnClickListener(this);
-        tv7.setOnClickListener(this);*/
-
-        ll_ver.setRecy(leftContainerRecyclerView,rightContainerRecyclerView);
-
-
-       /* rightContainerRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
-        rightContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-                if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE){
-                    if (leftContainerRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING){
-                        leftContainerRecyclerView.stopScroll();
-                    }
-                    leftContainerRecyclerView.scrollBy(dx,dy);
-                }
-
-
-            }
-        });
-        leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-                if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE){
-                    if (rightContainerRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING){
-                        rightContainerRecyclerView.stopScroll();
-                    }
-                    rightContainerRecyclerView.scrollBy(dx,dy);
-                }
-
-            }
-        });*/
+        tv7.setOnClickListener(this);
     }
 
 
-  /*  public void ToRight() {
-        contentHorsv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-    }
-
-    public void ToLeft() {
-        contentHorsv.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-    }*/
 
     private void initView() {
         // 设置两个水平控件的联动
@@ -161,32 +103,11 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         //添加左侧数据
         leftAdapter = new LeftAdapter(R.layout.layout_left_item, datas);
         leftContainerRecyclerView.setAdapter(leftAdapter);
-//        leftAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                Stock stock = (Stock) adapter.getItem(position);
-//                Toast.makeText(MainActivity.this, stock.getName(), Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         // 添加右边内容数据
         rightAdapter = new RightAdapter(R.layout.layout_right_item_a, datas);
         rightContainerRecyclerView.setAdapter(rightAdapter);
-//        rightAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                Stock stock = (Stock) adapter.getItem(position);
-//                Toast.makeText(MainActivity.this, stock.getName(), Toast.LENGTH_LONG).show();
-//            }
-//        });
 
-//        rightTitleRecyclerView.setAdapter(titleAdapter);
-     /*   titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                sortList();
-            }
-        });*/
 
     }
 
@@ -205,7 +126,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*switch (v.getId()) {
+        switch (v.getId()) {
             case R.id.tv1:
             case R.id.tv2:
             case R.id.tv3:
@@ -215,7 +136,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
             case R.id.tv7:
                 sortList();
                 break;
-        }*/
+        }
     }
 
     private boolean isSort;
