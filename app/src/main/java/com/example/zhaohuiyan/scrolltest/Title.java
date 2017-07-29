@@ -5,10 +5,13 @@ package com.example.zhaohuiyan.scrolltest;
  */
 
 public class Title {
+    public static int MIN = 0;
+    public static int MAX = 1;
     private int id;//序号
     private String name;
     private boolean isShow;
     private boolean isCrease;
+    private int type;
 
     public Title(int id,String name, boolean isShow, boolean isCrease) {
         this.id = id;
@@ -16,7 +19,20 @@ public class Title {
         this.isShow = isShow;
         this.isCrease = isCrease;
     }
+    public Title(int id, String name, boolean isShow, boolean isCrease,int type) {
+        this.id = id;
+        this.name = name;
+        this.isShow = isShow;
+        this.isCrease = isCrease;
+        this.type = type;
+    }
+    public void setType(int type){
+        this.type = type;
+    }
 
+    public int getType() {
+        return type;
+    }
     public int getId() {
         return id;
     }

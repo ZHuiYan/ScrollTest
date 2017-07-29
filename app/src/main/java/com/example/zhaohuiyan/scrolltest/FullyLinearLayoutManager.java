@@ -78,7 +78,7 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
             case View.MeasureSpec.AT_MOST:
             case View.MeasureSpec.UNSPECIFIED:
         }
-
+        Log.i(TAG,"width=" + width + ":height=" + height);
         setMeasuredDimension(width, height);
     }
 

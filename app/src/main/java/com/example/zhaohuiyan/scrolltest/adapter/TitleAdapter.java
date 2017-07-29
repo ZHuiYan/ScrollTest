@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.example.zhaohuiyan.scrolltest.MainActivity;
 import com.example.zhaohuiyan.scrolltest.R;
 import com.example.zhaohuiyan.scrolltest.Title;
@@ -19,6 +20,14 @@ public class TitleAdapter extends BaseQuickAdapter<Title,BaseViewHolder> {
 	public TitleAdapter(int layoutResId, List<Title> data, Activity activity) {
 		super(layoutResId, data);
 		this.activity = activity;
+		setMultiTypeDelegate(new MultiTypeDelegate<Title>() {
+			@Override
+			protected int getItemType(Title title) {
+				return title.getType();
+			}
+		});
+		getMultiTypeDelegate().registerItemType(Title.MIN,R.layout.layout_right_tab_a)
+				.registerItemType(Title.MAX,R.layout.layout_right_tab_a_max);
 	}
 
 	@Override

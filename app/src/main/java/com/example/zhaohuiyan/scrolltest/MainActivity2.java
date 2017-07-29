@@ -8,13 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.LeftAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.RightAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.TitleAdapter;
+import com.example.zhaohuiyan.scrolltest.adapter.TitleGridViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,13 +30,13 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
     @BindView(R.id.left_container_recyclerView)
     RecyclerView leftContainerRecyclerView;
     @BindView(R.id.right_container_recyclerView)
     RecyclerView rightContainerRecyclerView;
     @BindView(R.id.right_title_recyclerView)
-    RecyclerView rightTitleRecyclerView;
+    GridView rightTitleRecyclerView;
     @BindView(R.id.hs_content)
     MyHorizontalScrollView hsContent;
     @BindView(R.id.hs_title)
@@ -47,15 +51,16 @@ public class MainActivity extends AppCompatActivity {
     private List<Title> titles = new ArrayList<>();
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
-    private TitleAdapter titleAdapter;
+    private TitleGridViewAdapter titleAdapter;
 
     private Handler handler = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
         handler = new Handler();
+        initTitle();
         findView();
         initView();
         initData();
@@ -65,17 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
         leftContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         rightContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
+//        rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
+//        rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rightTitleRecyclerView.setNumColumns(titles.size());
+
+//        LinearLayout
 
         hsTtitle.setScrollView(hsContent);
         hsContent.setScrollView(hsTtitle);
 
         hsContent.setPtrRefresh(lvPortfolio);
 
-        hsTtitle.setHRecycleView(rightTitleRecyclerView);
-        hsContent.setHRecycleView(rightTitleRecyclerView);
-
-        rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
         leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Stock stock = (Stock) adapter.getItem(position);
-                Toast.makeText(MainActivity.this, stock.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity2.this, stock.getName(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -153,27 +158,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Stock stock = (Stock) adapter.getItem(position);
-                Toast.makeText(MainActivity.this, stock.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity2.this, stock.getName(), Toast.LENGTH_LONG).show();
             }
         });
 
-        titleAdapter = new TitleAdapter(R.layout.layout_right_tab_a, titles, this);
+        titleAdapter = new TitleGridViewAdapter(this,titles);
         rightTitleRecyclerView.setAdapter(titleAdapter);
-        titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        rightTitleRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 changeTitle(position);
                 sortList(position);
             }
         });
     }
 
-
-    //初始化数据源
-    private void initData() {
-        for (int i = 0; i < 1000; i++) {
-            datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));
-        }
+    private void initTitle(){
         for (int i = 0; i < 7; i++) {
             if (i == 3){
                 titles.add(new Title(i, "title" + i, false, true,1));
@@ -182,9 +182,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+    //初始化数据源
+    private void initData() {
+        for (int i = 0; i < 1000; i++) {
+            datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));
+        }
         leftAdapter.setNewData(datas);
         rightAdapter.setNewData(datas);
-        titleAdapter.setNewData(titles);
+//        titleAdapter.setNewData(titles);
+//        titleAdapter.setTitles(titles);
     }
 
 

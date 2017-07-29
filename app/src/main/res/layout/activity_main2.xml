@@ -22,15 +22,17 @@
         <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
             android:id="@+id/hs_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:overScrollMode="never"
             android:scrollbars="none">
-
-            <android.support.v7.widget.RecyclerView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.example.zhaohuiyan.scrolltest.MyGridView
                 android:id="@+id/right_title_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
         </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
     </LinearLayout>
 
