@@ -1,42 +1,43 @@
 package com.example.zhaohuiyan.scrolltest;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 
 /**
  * 以前找都是针对Activity的，将Activty设置进入里面，这个比较简单，只要将View设置进来就行
  */
 public class MyHorizontalScrollView extends HorizontalScrollView {
-
+    private GestureDetector mGestureDetector;
     private View mView;
-    private RecyclerView recyclerView;
-    private MyPtrClassicFrameLayout ptrRefresh;//首页的滑动控件
+    private Context mContext;
+    private RecyclerView rightRecyclerView;
 
     public MyHorizontalScrollView(Context context) {
         super(context);
+        this.mContext = context;
+        mGestureDetector = new GestureDetector(context, new YScrollDetector());
+        setFadingEdgeLength(0);
     }
 
     public MyHorizontalScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.mContext = context;
+        mGestureDetector = new GestureDetector(context, new YScrollDetector());
+        setFadingEdgeLength(0);
     }
 
-    public void setPtrRefresh(MyPtrClassicFrameLayout ptrRefresh){
-        this.ptrRefresh = ptrRefresh;
-    }
     @Override
     public void computeScroll() {
+        Log.e("horizotal","computeScroll:");
         super.computeScroll();
-        if (ptrRefresh != null)
-            ptrRefresh.setPullToRefresh(true);
     }
+
 
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -44,25 +45,50 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         if (mView != null) {
             mView.scrollTo(l, t);
         }
-        if (ptrRefresh != null)
-            ptrRefresh.setPullToRefresh(false);
+    }
+
+    private float oldX, oldY, newX, newY;
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                oldX = e.getX();
+                oldY = e.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                newX = e.getX();
+                newY = e.getY();
+                if (Math.abs(newX - oldX) < Math.abs(newY - oldY)) {//水平方向移动距离<垂直方向的移动距离
+                    return false;
+                } else if (rightRecyclerView != null &&!rightRecyclerView.canScrollVertically(-1) && (Math.abs(newX - oldX) < 125)) {
+                    return false;
+                } else {
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return super.onInterceptTouchEvent(e);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                Log.e("mmmmmm","ACTION_DOWN");
-                break;
-            case MotionEvent.ACTION_MOVE:
-                Log.e("mmmmmm","ACTION_MOVE");
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                Log.e("mmmmmm","ACTION_CANCEL");
-                break;
+    public boolean onTouchEvent(MotionEvent e) {
+        Log.e("horizotal","onTouchEvent:");
+        return mGestureDetector.onTouchEvent(e);
+    }
+    class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.e("horizotal","onFling:");
+            return super.onFling(e1, e2, velocityX, velocityY);
         }
-        return super.onTouchEvent(ev);
 
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            Log.e("horizotal","onScroll:");
+            return super.onScroll(e1,e2,distanceX,distanceY);
+        }
     }
 
     /**
@@ -74,10 +100,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         mView = view;
     }
 
-    /**
-     * 设置横向的recycleView
-     */
-    public void setHRecycleView(RecyclerView recycleView){
-        this.recyclerView = recycleView;
+    public void setRightRecyclerView(RecyclerView rightRecyclerView) {
+        this.rightRecyclerView = rightRecyclerView;
     }
 }

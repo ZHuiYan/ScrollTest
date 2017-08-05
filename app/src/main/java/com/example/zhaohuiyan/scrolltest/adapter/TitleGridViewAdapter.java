@@ -63,13 +63,14 @@ public class TitleGridViewAdapter extends BaseAdapter {
         }
         Title item = getItem(position);
         Log.e("sssss","name=" + item.getName());
-       /* RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) titleHolder.llShow.getLayoutParams();
+        titleHolder.tvName.setText(item.getName());
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) titleHolder.llShow.getLayoutParams();
         if (item.getType() == 1){
-            params.width = (int) UtilTools.dpToPx(context,120f);
+            params.width = (int) UtilTools.dpToPx(context,200f);
         }else {
             params.width = (int) UtilTools.dpToPx(context,94f);
         }
-        titleHolder.llShow.setLayoutParams(params);*/
+        titleHolder.llShow.setLayoutParams(params);
         if (item.isShow()) {
             titleHolder.ivShow.setVisibility(View.VISIBLE);
             if (item.isCrease()) {

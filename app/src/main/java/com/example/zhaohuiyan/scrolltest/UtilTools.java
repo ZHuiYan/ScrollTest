@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -44,6 +45,30 @@ public class UtilTools {
         //真正的高度需要加上分割线的高度
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    public static void setGridViewWidthBasedOnChildren(GridView gridView) {
+        /**
+         * getAdapter这个方法主要是为了获取到ListView的数据条数，所以设置之前必须设置Adapter
+         */
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalWidth = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+
+            View listItem = listAdapter.getView(i, null, gridView);
+            //计算每一项的高度
+            listItem.measure(0, 0);
+            //总高度
+            totalWidth += listItem.getMeasuredWidth();
+        }
+        Log.e("sssss","width=" + totalWidth);
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        //真正的高度需要加上分割线的高度
+        params.width = (int) (totalWidth - dpToPx(gridView.getContext(),20f));
+        gridView.setLayoutParams(params);
     }
     public static void setListViewHeightBasedOnChildren1(RecyclerView listView) {
         /**

@@ -26,11 +26,15 @@
             android:overScrollMode="never"
             android:scrollbars="none">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/right_title_recyclerView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/right_title_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
         </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
     </LinearLayout>
 

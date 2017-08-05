@@ -74,13 +74,9 @@ public class MainActivity2 extends AppCompatActivity {
 //        rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         rightTitleRecyclerView.setNumColumns(titles.size());
 
-//        LinearLayout
 
         hsTtitle.setScrollView(hsContent);
         hsContent.setScrollView(hsTtitle);
-
-        hsContent.setPtrRefresh(lvPortfolio);
-
 
         leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -164,6 +160,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         titleAdapter = new TitleGridViewAdapter(this,titles);
         rightTitleRecyclerView.setAdapter(titleAdapter);
+        UtilTools.setGridViewWidthBasedOnChildren(rightTitleRecyclerView);
         rightTitleRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

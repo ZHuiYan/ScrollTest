@@ -21,18 +21,22 @@
         <!-- 右侧标题的父容器可实现水平滚动 -->
         <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
             android:id="@+id/hs_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:overScrollMode="never"
             android:scrollbars="none">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.example.zhaohuiyan.scrolltest.MyGridView
-                android:id="@+id/right_title_recyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <GridView
+                    android:id="@+id/right_title_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:stretchMode="columnWidth" />
+            </LinearLayout>
         </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
     </LinearLayout>
 
