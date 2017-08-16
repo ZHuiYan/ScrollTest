@@ -57,8 +57,8 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         //这句的意思就是我滚到哪里，设置进来的空间就滚到哪里
         Log.e("horizotal22","onScrollChanged");
         if (mView != null) {
-            mView.scrollTo(l, t);
-//            mView.scrollBy(l - oldl,t - oldt);
+//            mView.scrollTo(l, t);
+            mView.scrollBy(getScrollX(),0);
         }
         if (linearLayoutManager != null){
             float width = rightTitleRecyclerView.getMeasuredWidth();

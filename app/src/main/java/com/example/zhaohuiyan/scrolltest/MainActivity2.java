@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.LeftAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.RightAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.TitleAdapter;
+import com.example.zhaohuiyan.scrolltest.view.MySnapHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,7 +70,7 @@ public class MainActivity2 extends AppCompatActivity {
         rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
-        LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
+        LinearSnapHelper linearSnapHelper = new MySnapHelper();
         linearSnapHelper.attachToRecyclerView(rightTitleRecyclerView);
 
         hsContent.setScrollView(rightTitleRecyclerView);
@@ -134,7 +135,7 @@ public class MainActivity2 extends AppCompatActivity {
                 hsContent.scrollBy(dx,0);
             }
         });
-
+//        hsContent.seto
 
         lvPortfolio.disableWhenHorizontalMove(true);
         lvPortfolio.setPtrHandler(new PtrHandler() {
