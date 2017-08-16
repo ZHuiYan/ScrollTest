@@ -3,13 +3,10 @@ package com.example.zhaohuiyan.scrolltest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -18,7 +15,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.LeftAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.RightAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.TitleAdapter;
-import com.example.zhaohuiyan.scrolltest.adapter.TitleGridViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,47 +32,46 @@ public class MainActivity2 extends AppCompatActivity {
     @BindView(R.id.right_container_recyclerView)
     RecyclerView rightContainerRecyclerView;
     @BindView(R.id.right_title_recyclerView)
-    GridView rightTitleRecyclerView;
+    RecyclerView rightTitleRecyclerView;
     @BindView(R.id.hs_content)
     MyHorizontalScrollView hsContent;
-    @BindView(R.id.hs_title)
-    MyHorizontalScrollView hsTtitle;
     @BindView(R.id.swipe_target)
     LinearLayout swipeTarget;
     @BindView(R.id.lv_portfolio)
     MyPtrClassicFrameLayout lvPortfolio;
+
 
     //左侧固定一列数据适配
     private List<Stock> datas = new ArrayList<>();
     private List<Title> titles = new ArrayList<>();
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
-    private TitleGridViewAdapter titleAdapter;
+    private TitleAdapter titleAdapter;
 
     private Handler handler = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
         handler = new Handler();
-        initTitle();
         findView();
         initView();
         initData();
     }
 
     private void findView() {
-
         leftContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         rightContainerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        rightTitleRecyclerView.setLayoutManager(new GridLayoutManager(this, 7));
-//        rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        rightTitleRecyclerView.setNumColumns(titles.size());
 
+        rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
-        hsTtitle.setScrollView(hsContent);
-        hsContent.setScrollView(hsTtitle);
+        hsContent.setScrollView(rightTitleRecyclerView);
+
+        hsContent.setRightRecyclerView(rightContainerRecyclerView);
+        hsContent.setRightTitleRecyclerView(rightTitleRecyclerView);
 
         leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -102,6 +97,12 @@ public class MainActivity2 extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 Log.e("mmm", "onScrollStateChanged：newState=" + newState);
+               /* LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int first = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                int last = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                Log.e("horizotal22","fist=" + first + "last=" + last );
+                Log.e("horizotal22","childcoutn=" + linearLayoutManager.getChildCount() + " :itemcount=" + linearLayoutManager.getItemCount() );
+                Log.e("horizotal22","fist=" + first + "last=" + last);*/
             }
 
             @Override
@@ -116,6 +117,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
+
         lvPortfolio.disableWhenHorizontalMove(true);
         lvPortfolio.setPtrHandler(new PtrHandler() {
             @Override
@@ -130,7 +132,7 @@ public class MainActivity2 extends AppCompatActivity {
                     public void run() {
                         lvPortfolio.refreshComplete();
                     }
-                },500);
+                }, 500);
             }
         });
     }
@@ -158,37 +160,35 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        titleAdapter = new TitleGridViewAdapter(this,titles);
+        titleAdapter = new TitleAdapter(R.layout.layout_right_tab_a, titles, this);
         rightTitleRecyclerView.setAdapter(titleAdapter);
-        UtilTools.setGridViewWidthBasedOnChildren(rightTitleRecyclerView);
-        rightTitleRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 changeTitle(position);
                 sortList(position);
             }
         });
+
     }
 
-    private void initTitle(){
-        for (int i = 0; i < 7; i++) {
-            if (i == 3){
-                titles.add(new Title(i, "title" + i, false, true,1));
-            }else {
-                titles.add(new Title(i, "title" + i, false, true));
-            }
 
-        }
-    }
     //初始化数据源
     private void initData() {
         for (int i = 0; i < 1000; i++) {
             datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));
         }
+        for (int i = 0; i < 7; i++) {
+            if (i == 3) {
+                titles.add(new Title(i, "title" + i, false, true, 1));
+            } else {
+                titles.add(new Title(i, "title" + i, false, true));
+            }
+
+        }
         leftAdapter.setNewData(datas);
         rightAdapter.setNewData(datas);
-//        titleAdapter.setNewData(titles);
-//        titleAdapter.setTitles(titles);
+        titleAdapter.setNewData(titles);
     }
 
 
@@ -225,15 +225,15 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (handler != null){
-            handler.postDelayed(runnable,10 * 1000);
+        if (handler != null) {
+            handler.postDelayed(runnable, 10 * 1000);
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (handler != null){
+        if (handler != null) {
             handler.removeCallbacks(runnable);
         }
     }
@@ -241,7 +241,7 @@ public class MainActivity2 extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("mmmm","runnable");
+            Log.e("mmmm", "runnable");
             datas.clear();
             for (int i = 0; i < 1000; i++) {
                 datas.add(new Stock("风华基金" + i, i + "", i + "", i + "", i + "", i + "", i + "", i + ""));

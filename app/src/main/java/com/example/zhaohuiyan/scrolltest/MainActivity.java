@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         hsContent.setScrollView(hsTtitle);
 
         hsContent.setRightRecyclerView(rightContainerRecyclerView);
+        hsContent.setRightTitleRecyclerView(rightTitleRecyclerView);
 
         rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
@@ -97,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 Log.e("mmm", "onScrollStateChanged：newState=" + newState);
+               /* LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int first = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                int last = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                Log.e("horizotal22","fist=" + first + "last=" + last );
+                Log.e("horizotal22","childcoutn=" + linearLayoutManager.getChildCount() + " :itemcount=" + linearLayoutManager.getItemCount() );
+                Log.e("horizotal22","fist=" + first + "last=" + last);*/
             }
 
             @Override
@@ -111,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         lvPortfolio.disableWhenHorizontalMove(true);
         lvPortfolio.setPtrHandler(new PtrHandler() {
             @Override
@@ -162,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 sortList(position);
             }
         });
+
     }
 
 
