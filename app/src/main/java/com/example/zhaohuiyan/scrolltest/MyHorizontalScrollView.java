@@ -55,17 +55,14 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         //这句的意思就是我滚到哪里，设置进来的空间就滚到哪里
-        Log.e("horizotal","onScrollChanged");
-       /* if (mView != null) {
+        Log.e("horizotal22","onScrollChanged");
+        if (mView != null) {
             mView.scrollTo(l, t);
 //            mView.scrollBy(l - oldl,t - oldt);
-        }*/
+        }
         if (linearLayoutManager != null){
-            int first = linearLayoutManager.findFirstVisibleItemPosition();
-            int last = linearLayoutManager.findLastVisibleItemPosition();
             float width = rightTitleRecyclerView.getMeasuredWidth();
-
-            Log.e("horizotal22","onScrollChanged:" + "first=" + first + ":last=" + last + " :width=" + width);
+            Log.e("horizotal22","onScrollChanged:" + "getscrollx=" + getScrollX() + " :width=" + width);
             Log.e("horizotal22","onScrollChanged:" + "l=" + l + ": t=" + t + " :oldl=" + oldl);
         }
 
@@ -107,12 +104,15 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
                 Log.e("horizotal3","onTouchEvent:ACTION_UP");
                 break;
         }*/
-//        return super.onTouchEvent(e);
-        return mGestureDetector.onTouchEvent(e);
+        return super.onTouchEvent(e);
+//        return mGestureDetector.onTouchEvent(e);
     }
-    class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
+
+    class YScrollDetector implements GestureDetector.OnGestureListener {
+       private float oldSx,nowSx;
         @Override
         public boolean onDown(MotionEvent e) {
+            Log.e("horizotal3","onDown:" + e.getX() + ":getscrollx=" + getScrollX());
             return true;
         }
 
@@ -121,17 +121,33 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             if (e1 != null && e2 != null && (Math.abs(e1.getX() - e2.getX()) > Math.abs(e1.getY() - e2.getY()))){
                 return true;
             }else {
-                Log.e("horizotal3","onFling:" + e1==null?"e1=null":"e1!=null" + "onFling:" + e2==null?"e2==null":"e2!=null");
+                Log.e("horizotal3","onFling:" + e2.getX() + ":getscrollx=" + getScrollX());
             }
-            return super.onFling(e1, e2, velocityX, velocityY);
+            return true;
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.e("horizotal3","onScroll:" + e1==null?"e1=null":"e1!=null" + "onScroll:" + e2==null?"e2==null":"e2!=null");
-                scrollBy((int) (e2.getX() - oldX),0);
-                mView.scrollBy((int) (e2.getX() - oldX),0);
-                return true;
+            Log.e("horizotal3","onScroll:" + e2.getX() + ":getscrollx=" + getScrollX());
+            nowSx = e2.getX();
+            scrollBy((int) (nowSx - oldSx),0);
+            mView.scrollBy((int) (nowSx- oldSx),0);
+            oldSx = nowSx;
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+        }
+        @Override
+        public void onShowPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
         }
     }
 

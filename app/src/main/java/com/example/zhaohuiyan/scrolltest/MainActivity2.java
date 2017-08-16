@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -68,6 +69,9 @@ public class MainActivity2 extends AppCompatActivity {
         rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
+        LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
+        linearSnapHelper.attachToRecyclerView(rightTitleRecyclerView);
+
         hsContent.setScrollView(rightTitleRecyclerView);
 
         hsContent.setRightRecyclerView(rightContainerRecyclerView);
@@ -117,6 +121,20 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
+
+        rightTitleRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                hsContent.scrollBy(dx,0);
+            }
+        });
+
 
         lvPortfolio.disableWhenHorizontalMove(true);
         lvPortfolio.setPtrHandler(new PtrHandler() {
