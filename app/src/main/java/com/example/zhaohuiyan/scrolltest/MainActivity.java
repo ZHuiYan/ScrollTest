@@ -1,5 +1,6 @@
 package com.example.zhaohuiyan.scrolltest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -38,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
     MyHorizontalScrollView hsTtitle;
     @BindView(R.id.swipe_target)
     LinearLayout swipeTarget;
+    @BindView(R.id.leftTitle)
+    View leftTitle;
     @BindView(R.id.lv_portfolio)
     MyPtrClassicFrameLayout lvPortfolio;
-
     //左侧固定一列数据适配
     private List<Stock> datas = new ArrayList<>();
     private List<Title> titles = new ArrayList<>();
@@ -54,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        leftTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ScrollerActivity.class);
+                startActivity(intent);
+            }
+        });
         handler = new Handler();
         findView();
         initView();

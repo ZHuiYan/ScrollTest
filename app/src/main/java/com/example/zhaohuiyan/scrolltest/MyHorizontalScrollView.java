@@ -1,6 +1,7 @@
 package com.example.zhaohuiyan.scrolltest;
 
 import android.content.Context;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -15,7 +16,7 @@ import android.widget.Scroller;
  * 以前找都是针对Activity的，将Activty设置进入里面，这个比较简单，只要将View设置进来就行
  */
 public class MyHorizontalScrollView extends HorizontalScrollView {
-    private GestureDetector mGestureDetector;
+    private GestureDetectorCompat mGestureDetector;
     private View mView;
     private Context mContext;
     private RecyclerView rightRecyclerView;
@@ -36,7 +37,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
     public void init(Context context){
         this.mContext = context;
         mScroller = new Scroller(context);
-        mGestureDetector = new GestureDetector(context, new YScrollDetector());
+        mGestureDetector = new GestureDetectorCompat(context, new YScrollDetector());
         setFadingEdgeLength(0);
     }
 
@@ -54,17 +55,18 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         //这句的意思就是我滚到哪里，设置进来的空间就滚到哪里
-        if (mView != null) {
-//            mView.scrollTo(l, t);
-            mView.scrollBy(l - oldl,t - oldt);
-        }
+        Log.e("horizotal","onScrollChanged");
+       /* if (mView != null) {
+            mView.scrollTo(l, t);
+//            mView.scrollBy(l - oldl,t - oldt);
+        }*/
         if (linearLayoutManager != null){
             int first = linearLayoutManager.findFirstVisibleItemPosition();
             int last = linearLayoutManager.findLastVisibleItemPosition();
-            float left = rightTitleRecyclerView.getMeasuredWidth();
-//            rightTitleRecyclerView.smoothScrollToPosition(first);
-            Log.e("horizotal22","onScrollChanged:" + "first=" + first + ":last=" + last + " :left=" + left);
-//            Log.e("horizotal22","onScrollChanged:" + "l=" + l + ": t=" + t );
+            float width = rightTitleRecyclerView.getMeasuredWidth();
+
+            Log.e("horizotal22","onScrollChanged:" + "first=" + first + ":last=" + last + " :width=" + width);
+            Log.e("horizotal22","onScrollChanged:" + "l=" + l + ": t=" + t + " :oldl=" + oldl);
         }
 
     }
@@ -97,27 +99,39 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        Log.e("horizotal","onTouchEvent:");
-        return super.onTouchEvent(e);
-//        return mGestureDetector.onTouchEvent(e);
+        /*switch (e.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("horizotal3","onTouchEvent:ACTION_MOVE");
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.e("horizotal3","onTouchEvent:ACTION_UP");
+                break;
+        }*/
+//        return super.onTouchEvent(e);
+        return mGestureDetector.onTouchEvent(e);
     }
     class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            Log.e("horizotal","onFling:");
-            if (e1 != null && e2 != null && (Math.abs(e1.getX() - e2.getX()) > Math.abs(e1.getY() - e2.getY())))
+            if (e1 != null && e2 != null && (Math.abs(e1.getX() - e2.getX()) > Math.abs(e1.getY() - e2.getY()))){
                 return true;
+            }else {
+                Log.e("horizotal3","onFling:" + e1==null?"e1=null":"e1!=null" + "onFling:" + e2==null?"e2==null":"e2!=null");
+            }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.e("horizotal","onScroll:" + "distancex=" + distanceX + ":distancey=" + distanceY);
-            if (Math.abs(distanceX) > Math.abs(distanceY)){
-                scrollBy((int) distanceX,0);
+            Log.e("horizotal3","onScroll:" + e1==null?"e1=null":"e1!=null" + "onScroll:" + e2==null?"e2==null":"e2!=null");
+                scrollBy((int) (e2.getX() - oldX),0);
+                mView.scrollBy((int) (e2.getX() - oldX),0);
                 return true;
-            }
-            return super.onScroll(e1,e2,distanceX,distanceY);
         }
     }
 

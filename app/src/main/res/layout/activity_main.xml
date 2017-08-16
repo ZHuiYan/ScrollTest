@@ -14,6 +14,7 @@
 
         <!-- 左侧标题的父容器 -->
         <include
+            android:id="@+id/leftTitle"
             layout="@layout/layout_left_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
