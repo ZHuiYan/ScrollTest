@@ -14,7 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.Scroller;
 
 /**
- * 以前找都是针对Activity的，将Activty设置进入里面，这个比较简单，只要将View设置进来就行
+ * 包含自动对齐
  */
 public class MyHorizontalScrollView1 extends HorizontalScrollView {
     private GestureDetector mGestureDetector;
@@ -168,11 +168,11 @@ public class MyHorizontalScrollView1 extends HorizontalScrollView {
         this.points = points;
     }
 
+    //计算要移动到的距离
     public int calculateDistanceToFinalSnap(){
         int targetIndex=0;
         int snap=Math.abs(lastX - points[0]);
         for (int i=0;i<points.length-2;i++){
-            Log.e("horizotal4","snap=" + snap + ": "+ Math.abs(lastX - points[i+1]));
             if (snap > Math.abs(lastX - points[i+1])){
                 snap = Math.abs(lastX - points[i+1]);
                 targetIndex = i+1;
