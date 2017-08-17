@@ -1,4 +1,4 @@
-package com.example.zhaohuiyan.scrolltest;
+package com.example.zhaohuiyan.scrolltest.view;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

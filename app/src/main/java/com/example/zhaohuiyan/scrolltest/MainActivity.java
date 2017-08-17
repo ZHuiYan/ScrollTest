@@ -3,12 +3,17 @@ package com.example.zhaohuiyan.scrolltest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.LeftAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.RightAdapter;
 import com.example.zhaohuiyan.scrolltest.adapter.TitleAdapter;
+import com.example.zhaohuiyan.scrolltest.view.MySnapHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.right_title_recyclerView)
     RecyclerView rightTitleRecyclerView;
     @BindView(R.id.hs_content)
-    MyHorizontalScrollView hsContent;
+    MyHorizontalScrollView1 hsContent;
     @BindView(R.id.hs_title)
-    MyHorizontalScrollView hsTtitle;
+    MyHorizontalScrollView1 hsTitle;
     @BindView(R.id.swipe_target)
     LinearLayout swipeTarget;
     @BindView(R.id.leftTitle)
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
     private TitleAdapter titleAdapter;
+    private int[] titlePoint;
 
     private Handler handler = null;
     @Override
@@ -76,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
         rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
 
-        hsTtitle.setScrollView(hsContent);
-        hsContent.setScrollView(hsTtitle);
+        hsTitle.setScrollView(hsContent);
+        hsContent.setScrollView(hsTitle);
 
         hsContent.setRightRecyclerView(rightContainerRecyclerView);
         hsContent.setRightTitleRecyclerView(rightTitleRecyclerView);
@@ -183,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    boolean isGlobal = false;
     //初始化数据源
     private void initData() {
         for (int i = 0; i < 1000; i++) {
@@ -200,6 +207,26 @@ public class MainActivity extends AppCompatActivity {
         leftAdapter.setNewData(datas);
         rightAdapter.setNewData(datas);
         titleAdapter.setNewData(titles);
+        titlePoint = new int[titles.size()];
+
+
+        rightTitleRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (!isGlobal){
+                    isGlobal = true;
+                    View view;
+                    titlePoint[0] = 0;
+                    for (int i=1;i<titles.size();i++){
+                        view = rightTitleRecyclerView.getChildAt(i);
+                        titlePoint[i] = view.getLeft();
+                        Log.e("horizotal4","point=" + titlePoint[i]);
+                    }
+                    hsContent.setRightPoint(titlePoint);
+                    hsTitle.setRightPoint(titlePoint);
+                }
+            }
+        });
     }
 
 

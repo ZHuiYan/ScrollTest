@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -36,7 +35,7 @@ public class MainActivity2 extends AppCompatActivity {
     @BindView(R.id.right_title_recyclerView)
     RecyclerView rightTitleRecyclerView;
     @BindView(R.id.hs_content)
-    MyHorizontalScrollView hsContent;
+    MyHorizontalScrollView1 hsContent;
     @BindView(R.id.swipe_target)
     LinearLayout swipeTarget;
     @BindView(R.id.lv_portfolio)
@@ -70,13 +69,12 @@ public class MainActivity2 extends AppCompatActivity {
         rightTitleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rightTitleRecyclerView.setNestedScrollingEnabled(false);
 
-        LinearSnapHelper linearSnapHelper = new MySnapHelper();
-        linearSnapHelper.attachToRecyclerView(rightTitleRecyclerView);
+//        LinearSnapHelper linearSnapHelper = new MySnapHelper();
+//        linearSnapHelper.attachToRecyclerView(rightTitleRecyclerView);
 
         hsContent.setScrollView(rightTitleRecyclerView);
-
-        hsContent.setRightRecyclerView(rightContainerRecyclerView);
         hsContent.setRightTitleRecyclerView(rightTitleRecyclerView);
+        hsContent.setRightRecyclerView(rightContainerRecyclerView);
 
         leftContainerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -132,10 +130,10 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                hsContent.scrollBy(dx,0);
+//                hsContent.scrollBy(dx,0);
             }
         });
-//        hsContent.seto
+
 
         lvPortfolio.disableWhenHorizontalMove(true);
         lvPortfolio.setPtrHandler(new PtrHandler() {

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content" />
 
         <!-- 右侧标题的父容器可实现水平滚动 -->
-        <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
+        <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView1
             android:id="@+id/hs_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-        </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
+        </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView1>
     </LinearLayout>
 
     <!-- 此部分是内容部分 用ScrollView实现上下滚动效果 -->
@@ -66,7 +66,7 @@
                 android:layout_weight="3"
                 android:overScrollMode="never" />
 
-            <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView
+            <com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView1
                 android:id="@+id/hs_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:listSelector="@android:color/transparent"
                     android:overScrollMode="never" />
-            </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView>
+            </com.example.zhaohuiyan.scrolltest.MyHorizontalScrollView1>
         </LinearLayout>
     </com.example.zhaohuiyan.scrolltest.MyPtrClassicFrameLayout>
 </LinearLayout>
